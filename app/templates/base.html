@@ -57,16 +57,16 @@
 								</div>
 							</form>
 						</div>
-<!--						<div class="col-md-3 col-sm-12 text-right">-->
-<!--							<ul class="nav-icons">-->
-<!--								{% if user.is_authenticated %}-->
-<!--									<li><a href=""><i class="ion-person"></i><div><b>Здравствуйте, {{user.first_name}}!</b></div></a></li>-->
-<!--								{% else %}-->
-<!--									<li><a href=""><i class="ion-person-add"></i><div><b>Регистрация</b></div></a></li>-->
-<!--									<li><a href=""><i class="ion-person"></i><div><b>Войти</b></div></a></li>-->
-<!--								{% endif %}-->
-<!--							</ul>-->
-<!--						</div>-->
+						<div class="col-md-3 col-sm-12 text-right">
+							<ul class="nav-icons">
+								{% if user.is_authenticated %}
+									<li><a href=""><i class="ion-person"></i><div><b>Здравствуйте, {{user.name}}!</b></div></a></li>
+								{% else %}
+									<li><a href="{% url 'user:register' %}"><i class="ion-person-add"></i><div><b>Регистрация</b></div></a></li>
+									<li><a href="{% url 'user:login_user' %}"><i class="ion-person"></i><div><b>Войти</b></div></a></li>
+								{% endif %}
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -115,7 +115,7 @@
 									<li><a href="#"><i class="icon ion-person"></i> Аккаунт</a></li>
 									<li><a href="#"><i class="icon ion-settings"></i> Мои проекты</a></li>
 									<li class="divider"></li>
-									<li><a href=""><i class="icon ion-log-out"></i> Выйти</a></li>
+									<li><a href="{% url 'user:logout_user' %}"><i class="icon ion-log-out"></i> Выйти</a></li>
 								</ul>
 							</li>
 						</ul>
