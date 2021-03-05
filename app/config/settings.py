@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     'user',
     'main',
+
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,6 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [STATIC_DIR]
 
 AUTH_USER_MODEL = 'user.User'
+
+LOGOUT_REDIRECT_URL = 'main:main_page'
+LOGIN_URL = 'user:login_user'

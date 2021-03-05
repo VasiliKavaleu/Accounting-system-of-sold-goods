@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="category first" style="padding-top: 218px;">
+		  <div class="container">
+		    <div class="row">
+		      <div class="col-md-8 text-left">
+		        <div class="row">
+		          <div class="col-md-12">
+		            <h1 class="page-title">Список магазинов</h1>
+		          </div>
+		        </div>
+		        <div class="line"></div>
+		        <div class="row">
+                  {% if shops %}
+                  {% for shop in shops %}
+		          <article class="col-md-12 article-list">
+		            <div class="inner">
+		              <figure>
+			              <a href="single.html">
+			                <img src="{% static 'images/shop1.jpg' %}">
+		                </a>
+		              </figure>
+		              <div class="details">
+		                <h1><a href="">{{ shop.name }}</a></h1>
+		                <footer>
+		                  <a class="btn btn-primary more" href="{% url 'main:product_list_by_shop' shop.id %}">
+		                    <div>Товары магазина</div>
+		                    <div><i class="ion-ios-arrow-thin-right"></i></div>
+		                  </a>
+		                </footer>
+		              </div>
+		            </div>
+                      <div class="line"></div>
+		          </article>
+                  {% endfor %}
+                  {% endif %}
+
+
+		          <div class="col-md-12 text-center">
+		            <ul class="pagination">
+		              <li class="prev"><a href="#"><i class="ion-ios-arrow-left"></i></a></li>
+		              <li class="active"><a href="#">1</a></li>
+		              <li><a href="#">2</a></li>
+		              <li><a href="#">3</a></li>
+		              <li><a href="#">...</a></li>
+		              <li><a href="#">97</a></li>
+		              <li class="next"><a href="#"><i class="ion-ios-arrow-right"></i></a></li>
+		            </ul>
+		            <div class="pagination-help-text">
+		            	Showing 8 results of 776 — Page 1
+		            </div>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</section>
+
+{% endblock %}
