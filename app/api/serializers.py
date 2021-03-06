@@ -5,7 +5,7 @@ from rest_framework import serializers
 import sys
 sys.path.append('..')
 
-from main.models import Category, Product, Shop, Storage
+from main.models import Category, Product, Shop, Storage, ProductOnStorage
 
 class UserSerializers(serializers.ModelSerializer):
     """Serializer for the users object"""
@@ -58,20 +58,42 @@ class AuthTokenSerializer(serializers.Serializer):
 
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
+    """Serializers of category"""
     class Meta:
         model = Category
-        fields = ['name']
+        fields = ['id', 'name']
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    """Serializers of products"""
+    category = CategorySerializer()
 
     class Meta:
         model = Product
-        fields = ('name', 'category')
+        fields = ('id', 'name', 'category')
 
 
 class StorageSerializer(serializers.ModelSerializer):
-
+    """Serializers of storages"""
     class Meta:
         model = Storage
-        fields = ('name',)
+        fields = ('id', 'name')
+
+
+class ShopSerializer(serializers.ModelSerializer):
+    """Serializers of shops"""
+    product = ProductSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Shop
+        fields = ('id', 'name', 'product')
+
+
+class ProductOnStorageSerializer(serializers.ModelSerializer):
+    product = ProductSerializer()
+    storage = StorageSerializer(many=True, read_only=True)
+    shops = ShopSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = ProductOnStorage
+        fields = ('id', 'product', 'storage', 'shops')

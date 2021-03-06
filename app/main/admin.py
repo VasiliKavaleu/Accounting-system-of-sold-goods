@@ -12,6 +12,6 @@ admin.site.register(SoldProduct)
 
 @admin.register(ProductOnStorage)
 class ProductOnStorageAdmin(admin.ModelAdmin):
-    list_display = ['product', 'storage', 'available']
-    list_filter = ['available', 'storage']
-    list_editable = ['available']
+    list_display = ['product']
+    # list_filter = ['storage']
+    #list_editable = ['available']

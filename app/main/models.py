@@ -3,7 +3,7 @@ from django.db import models
 
 class Category(models.Model):
     objects = None
-    name = models.CharField('Название категории', max_length=200, db_index=True)
+    name = models.CharField('Название категории', max_length=200, db_index=True, unique=True)
 
     class Meta:
         ordering = ('name',)
@@ -17,7 +17,6 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField('Название товара', max_length=200, db_index=True)
     category = models.ForeignKey(Category,
-                                 related_name='products',
                                  null=True,
                                  on_delete=models.SET_NULL)
 
@@ -25,6 +24,7 @@ class Product(models.Model):
         ordering = ('name',)
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
+        unique_together = (('name', 'category'),)
 
     def __str__(self):
         return self.name
@@ -32,7 +32,7 @@ class Product(models.Model):
 
 class Shop(models.Model):
     name = models.CharField('Название магазина', max_length=200, db_index=True)
-    product = models.ManyToManyField(Product, verbose_name='Товары')
+    #product = models.ManyToManyField(Product, verbose_name='Товары', blank=True)
 
     class Meta:
         verbose_name = 'Магазин'
@@ -58,14 +58,13 @@ class ProductOnStorage(models.Model):
                                 verbose_name='Товар',
                                 related_name='products',
                                 on_delete=models.CASCADE)
-    storage = models.ForeignKey(Storage,
-                                verbose_name='Склад',
-                                related_name='products',
-                                on_delete=models.CASCADE)
-    available = models.BooleanField('Наличие на складе', default=False)
+    storage = models.ManyToManyField(Storage, verbose_name='Склады',  blank=True)
+
+    shops = models.ManyToManyField(Shop, verbose_name='Магазины', blank=True)
+
 
     class Meta:
-        verbose_name = 'Наличие товара на складе'
+        verbose_name = 'Наличие товаров'
         verbose_name_plural = 'Наличие товаров на складе'
 
     def __str__(self):
