@@ -26,4 +26,8 @@ urlpatterns = [
     path('products_availability/', views.ProductAvailableListCreate.as_view()),
     path('products_availability/<int:pk>/', views.ProductAvailableDetail.as_view()),
 
+
+    path('sold_product/', views.ProductSale.as_view()),
+
+
 ]

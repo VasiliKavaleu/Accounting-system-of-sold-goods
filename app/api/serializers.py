@@ -5,7 +5,7 @@ from rest_framework import serializers
 import sys
 sys.path.append('..')
 
-from main.models import Category, Product, Shop, Storage, ProductOnStorage
+from main.models import Category, Product, Shop, Storage, ProductOnStorage, SoldProduct
 
 class UserSerializers(serializers.ModelSerializer):
     """Serializer for the users object"""
@@ -97,3 +97,13 @@ class ProductOnStorageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductOnStorage
         fields = ('id', 'product', 'storage', 'shops')
+
+
+class SoldProductSerializer(serializers.ModelSerializer):
+    product = ProductSerializer()
+    storage = StorageSerializer()
+    shop = ShopSerializer()
+
+    class Meta:
+        model = SoldProduct
+        fields = ('product', 'storage', 'shop')

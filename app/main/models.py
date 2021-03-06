@@ -72,23 +72,20 @@ class ProductOnStorage(models.Model):
 
 
 class SoldProduct(models.Model):
-    name = models.ForeignKey(Product,
-                             related_name='sold_products',
-                             null=True,
-                             on_delete=models.SET_NULL)
+    product = models.ForeignKey(Product,
+                                 null=True,
+                                 on_delete=models.SET_NULL)
     shop = models.ForeignKey(Shop,
-                             related_name='sold_products',
-                             null=True,
-                             on_delete=models.SET_NULL)
+                                 null=True,
+                                 on_delete=models.SET_NULL)
     storage = models.ForeignKey(Storage,
-                                related_name='sold_products',
                                 null=True,
                                 on_delete=models.SET_NULL)
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('product',)
         verbose_name = 'Проданный товар'
         verbose_name_plural = 'Проданные товары'
 
     def __str__(self):
-        return self.name
+        return self.product.name

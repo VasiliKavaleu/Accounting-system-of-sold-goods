@@ -7,12 +7,13 @@ from rest_framework.settings import api_settings
 from rest_framework.views import APIView
 from rest_framework.generics import get_object_or_404
 
-from .serializers import UserSerializers, AuthTokenSerializer, CategorySerializer, ProductSerializer, StorageSerializer, ShopSerializer, ProductOnStorageSerializer
+from .serializers import UserSerializers, AuthTokenSerializer, CategorySerializer, ProductSerializer, \
+                        StorageSerializer, ShopSerializer, ProductOnStorageSerializer, SoldProductSerializer
 
 import sys
 
 sys.path.append('..')
-from main.models import Category, Product, Storage, Shop, ProductOnStorage
+from main.models import Category, Product, Storage, Shop, ProductOnStorage, SoldProduct
 
 
 class CreateUserView(generics.CreateAPIView):
@@ -84,6 +85,7 @@ class ProductListCreateAPIView(APIView):
 
 
 class ProductDetailAPIView(APIView):
+    """Manage products (retrieve, update and delete)"""
     authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
@@ -112,6 +114,7 @@ class ProductDetailAPIView(APIView):
 
 
 class ProductAvailableListCreate(APIView):
+    """List and added Product ratio by storage and shop"""
     authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
@@ -134,15 +137,16 @@ class ProductAvailableListCreate(APIView):
                 product_on_storage.storage.add(storage_obj)
 
         if shops_ids:
-            for obj in storage_ids:
-                storage_obj = get_object_or_404(Shop, pk=obj['id'])
-                product_on_storage.shops.add(storage_obj)
+            for obj in shops_ids:
+                shop_obj = get_object_or_404(Shop, pk=obj['id'])
+                product_on_storage.shops.add(shop_obj)
 
         serializer = ProductOnStorageSerializer(product_on_storage)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class ProductAvailableDetail(APIView):
+    """Shows Product (availability) ratio with storage/shop and delete"""
     authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
@@ -158,6 +162,40 @@ class ProductAvailableDetail(APIView):
         product_on_storage = self.get_object(pk)
         product_on_storage.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ProductSale(APIView):
+    """Added product to list of sold items and remove storage from list of available storages"""
+    authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        sold_products = SoldProduct.objects.all()
+        serializer = SoldProductSerializer(sold_products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        data = request.data
+        try:
+            product_id = data.get('product')['id']
+            shop_id = data.get('shop')['id']
+            storage_id = data.get('storage')['id']
+        except (ValueError, KeyError, TypeError) as e:
+            return Response(status=400)
+        else:
+            product = get_object_or_404(Product, pk=product_id)
+            shop_obj = get_object_or_404(Shop, pk=shop_id)
+            storage_obj = get_object_or_404(Storage, pk=storage_id)
+
+            product_on_storage = get_object_or_404(ProductOnStorage, product__id=product_id)
+
+            if product_on_storage.storage.filter(id=storage_id):
+                product_on_storage.storage.remove(storage_obj)
+                sold_product = SoldProduct.objects.create(product=product, shop=shop_obj, storage=storage_obj)
+                serializer = SoldProductSerializer(sold_product)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(status=400)
 
 
 
