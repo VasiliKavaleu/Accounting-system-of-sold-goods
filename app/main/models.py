@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Category(models.Model):
+    objects = None
     name = models.CharField('Название категории', max_length=200, db_index=True)
 
     class Meta:
@@ -13,8 +14,25 @@ class Category(models.Model):
         return self.name
 
 
+class Product(models.Model):
+    name = models.CharField('Название товара', max_length=200, db_index=True)
+    category = models.ForeignKey(Category,
+                                 related_name='products',
+                                 null=True,
+                                 on_delete=models.SET_NULL)
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name = 'Товар'
+        verbose_name_plural = 'Товары'
+
+    def __str__(self):
+        return self.name
+
+
 class Shop(models.Model):
     name = models.CharField('Название магазина', max_length=200, db_index=True)
+    product = models.ManyToManyField(Product, verbose_name='Товары')
 
     class Meta:
         verbose_name = 'Магазин'
@@ -35,24 +53,43 @@ class Storage(models.Model):
         return self.name
 
 
-class Product(models.Model):
-    name = models.CharField('Название товара', max_length=200, db_index=True)
-    category = models.ForeignKey(Category,
-                                 related_name='products',
-                                 on_delete=models.CASCADE)
-    shop = models.ManyToManyField(Shop)
-    storage = models.ManyToManyField(Storage)
-    description = models.TextField('Описание', blank=True)
-    price = models.DecimalField('Цена', max_digits=10, decimal_places=2)
-    sold = models.BooleanField('Продан', default=False)
-    created = models.DateTimeField('Создан', auto_now_add=True)
-    updated = models.DateTimeField('Обновлен', auto_now=True)
+class ProductOnStorage(models.Model):
+    product = models.ForeignKey(Product,
+                                verbose_name='Товар',
+                                related_name='products',
+                                on_delete=models.CASCADE)
+    storage = models.ForeignKey(Storage,
+                                verbose_name='Склад',
+                                related_name='products',
+                                on_delete=models.CASCADE)
+    available = models.BooleanField('Наличие на складе', default=False)
+
+    class Meta:
+        verbose_name = 'Наличие товара на складе'
+        verbose_name_plural = 'Наличие товаров на складе'
+
+    def __str__(self):
+        return self.product.name
+
+
+class SoldProduct(models.Model):
+    name = models.ForeignKey(Product,
+                             related_name='sold_products',
+                             null=True,
+                             on_delete=models.SET_NULL)
+    shop = models.ForeignKey(Shop,
+                             related_name='sold_products',
+                             null=True,
+                             on_delete=models.SET_NULL)
+    storage = models.ForeignKey(Storage,
+                                related_name='sold_products',
+                                null=True,
+                                on_delete=models.SET_NULL)
 
     class Meta:
         ordering = ('name',)
-        verbose_name = 'Товар'
-        verbose_name_plural = 'Товары'
+        verbose_name = 'Проданный товар'
+        verbose_name_plural = 'Проданные товары'
 
     def __str__(self):
         return self.name
-

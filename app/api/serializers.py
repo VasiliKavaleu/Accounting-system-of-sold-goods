@@ -2,6 +2,10 @@ from django.contrib.auth import get_user_model, authenticate
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
 
+import sys
+sys.path.append('..')
+
+from main.models import Category, Product, Shop, Storage
 
 class UserSerializers(serializers.ModelSerializer):
     """Serializer for the users object"""
@@ -51,3 +55,23 @@ class AuthTokenSerializer(serializers.Serializer):
 
         attrs['user'] = user
         return attrs
+
+
+class CategorySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['name']
+
+
+class ProductSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Product
+        fields = ('name', 'category')
+
+
+class StorageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Storage
+        fields = ('name',)
