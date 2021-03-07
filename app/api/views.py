@@ -198,9 +198,41 @@ class ProductSale(APIView):
                 return Response(status=400)
 
 
+class SoldProductsByCategoryID(generics.ListAPIView):
+    """Get sold products be category id"""
+    serializer_class = SoldProductSerializer
+    authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return SoldProduct.objects.filter(product__category=self.request.data.get('id'))
 
 
+class SoldProductsByStorageID(generics.ListAPIView):
+    """Get sold products be storage id"""
+    serializer_class = SoldProductSerializer
+    authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return SoldProduct.objects.filter(storage__id=self.request.data.get('id'))
 
 
+class SoldProductsShopID(generics.ListAPIView):
+    """Get sold products be shop id"""
+    serializer_class = SoldProductSerializer
+    authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return SoldProduct.objects.filter(shop__id=self.request.data.get('id'))
 
 
+class SoldProductsProductID(generics.ListAPIView):
+    """Get sold products be product id"""
+    serializer_class = SoldProductSerializer
+    authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return SoldProduct.objects.filter(product__id=self.request.data.get('id'))

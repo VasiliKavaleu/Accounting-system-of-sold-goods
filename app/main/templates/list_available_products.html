@@ -24,19 +24,27 @@
 		              </figure>
 		              <div class="details">
 						<div class="detail">
+						 {% if product.shops.all %}
 		                  <div class="category">
 		                   <a href="">Доступно в магазинах:</a>
 		                  </div>
-							{% for shop in 	product.shop.all %}
+							{% for shop in 	product.shops.all %}
 		                  		<div class="time">{{ shop.name }}</div>
 							{% endfor %}
+						  {% else %}
+						  	<a href="">Не поступило в продажу в магазины!</a>
+						  {% endif %}
 		                </div>
-		                <h1><a href="">{{ product.name }}</a></h1>
-						  <a href="category.html">Доступно на складах:</a>
-						  {% for storage in product.storage.all %}
-		                  		{{ storage.name }}
-						  {% endfor %}
-
+		                <h1><a href="">{{ product.product.name }}</a></h1>
+						  <p>Категория: {{ product.product.category }}</p>
+						  {% if product.storage.all %}
+							  <a href="">Доступно на складах:</a>
+							  {% for storage in product.storage.all %}
+									{{ storage.name }}
+							  {% endfor %}
+						  {% else %}
+						  	<a href="">Нет в наличии на складах!</a>
+						  {% endif %}
 		              </div>
 		            </div>
 		          </article>

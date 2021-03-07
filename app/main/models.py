@@ -32,7 +32,6 @@ class Product(models.Model):
 
 class Shop(models.Model):
     name = models.CharField('Название магазина', max_length=200, db_index=True)
-    #product = models.ManyToManyField(Product, verbose_name='Товары', blank=True)
 
     class Meta:
         verbose_name = 'Магазин'

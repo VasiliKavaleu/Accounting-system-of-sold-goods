@@ -24,20 +24,26 @@
 		              </figure>
 		              <div class="details">
 						<div class="detail">
+						  {% if product.shops.all %}
 		                  <div class="category">
 		                   <a href="">Доступно в магазинах:</a>
 		                  </div>
-							{% for shop in 	product.shop.all %}
+							{% for shop in 	product.shops.all %}
 		                  		<div class="time">{{ shop.name }}</div>
 							{% endfor %}
+						  {% else %}
+						  <div class="category">
+						   <a href="">Не поступило в продажу!</a>
+						  </div>
+						  {% endif %}
 		                </div>
-		                <h1><a href="">{{ product.name }}</a></h1>
+		                <h1><a href="">{{ product.product.name }}</a></h1>
+					  	<p>Категория: {{ product.product.category }}</p>
 		              </div>
 		            </div>
 		          </article>
                   {% endfor %}
                   {% endif %}
-
 
 		          <div class="col-md-12 text-center">
 		            <ul class="pagination">

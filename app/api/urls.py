@@ -26,8 +26,11 @@ urlpatterns = [
     path('products_availability/', views.ProductAvailableListCreate.as_view()),
     path('products_availability/<int:pk>/', views.ProductAvailableDetail.as_view()),
 
-
     path('sold_product/', views.ProductSale.as_view()),
 
+    path('sold_product_by_category/', views.SoldProductsByCategoryID.as_view()),
+    path('sold_product_by_storage/', views.SoldProductsByStorageID.as_view()),
+    path('sold_product_by_shop/', views.SoldProductsShopID.as_view()),
+    path('sold_product_by_product/', views.SoldProductsProductID.as_view()),
 
 ]

@@ -7,6 +7,7 @@ sys.path.append('..')
 
 from main.models import Category, Product, Shop, Storage, ProductOnStorage, SoldProduct
 
+
 class UserSerializers(serializers.ModelSerializer):
     """Serializer for the users object"""
 
@@ -90,6 +91,7 @@ class ShopSerializer(serializers.ModelSerializer):
 
 
 class ProductOnStorageSerializer(serializers.ModelSerializer):
+    """Serializers products of assortment"""
     product = ProductSerializer()
     storage = StorageSerializer(many=True, read_only=True)
     shops = ShopSerializer(many=True, read_only=True)
@@ -100,6 +102,7 @@ class ProductOnStorageSerializer(serializers.ModelSerializer):
 
 
 class SoldProductSerializer(serializers.ModelSerializer):
+    """Serializers of sold products"""
     product = ProductSerializer()
     storage = StorageSerializer()
     shop = ShopSerializer()

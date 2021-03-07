@@ -5,6 +5,7 @@
 <section class="category first" style="padding-top: 218px;">
 		  <div class="container">
 		    <div class="row">
+			  {% if sold_products %}
 		      <div class="col-md-8 text-left">
 		        <div class="row">
 		          <div class="col-md-12">
@@ -13,8 +14,7 @@
 		        </div>
 		        <div class="line"></div>
 		        <div class="row">
-                  {% if sold_products %}
-                  {% for product in sold_products %}
+                  {% for item in sold_products %}
 		          <article class="col-md-12 article-list">
 		            <div class="inner">
 		              <figure>
@@ -23,13 +23,22 @@
 		                </a>
 		              </figure>
 		              <div class="details">
-		                <h1><a href="">{{ product.name }}</a></h1>
+
+						<div class="detail">
+		                  <div class="category">
+		                   <a href="">Категория:</a>
+		                  </div>
+		                  		<div class="time">{{ item.product.category }}</div>
+		                </div>
+					<h1><a href="">{{ item.product.name }}</a></h1>
+						  <p>Приобретено в: {{ item.shop.name }}</p>
+						  <p>Отгружено с: {{ item.storage.name }}</p>
 		              </div>
 		            </div>
                       <div class="line"></div>
 		          </article>
                   {% endfor %}
-                  {% endif %}
+
 
 
 		          <div class="col-md-12 text-center">
@@ -48,6 +57,14 @@
 		          </div>
 		        </div>
 		      </div>
+			  {% else %}
+				<div class="row">
+		          <div class="col-md-12">
+		            <h1 class="page-title">Нет проданных товаров!</h1>
+		          </div>
+		        </div>
+		        <div class="line"></div>
+			  {% endif %}
 		    </div>
 		  </div>
 		</section>

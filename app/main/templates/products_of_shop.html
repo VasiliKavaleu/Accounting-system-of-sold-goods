@@ -24,14 +24,21 @@
 		              </figure>
 		              <div class="details">
 						<div class="detail">
+						  {% if product.storage.all %}
 		                  <div class="category">
 		                   <a href="">Доступно на складах:</a>
 		                  </div>
-							{% for storage in 	product.storage.all %}
+							{% for storage in product.storage.all %}
 		                  		<div class="time">{{ storage.name }}</div>
 							{% endfor %}
+						  {% else %}
+						  <div class="category">
+		                   <a href="">Нет в наличии на складах!</a>
+		                  </div>
+						  {% endif %}
 		                </div>
-		                <h1><a href="">{{ product.name }}</a></h1>
+		                <h1><a href="">{{ product.product.name }}</a></h1>
+					    <p>Категория: {{ product.product.category }}</p>
 		              </div>
 		            </div>
 		          </article>
