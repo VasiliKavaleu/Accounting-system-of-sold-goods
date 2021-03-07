@@ -5,7 +5,8 @@ from rest_framework import serializers
 import sys
 sys.path.append('..')
 
-from main.models import Category, Product, Shop, Storage, ProductOnStorage, SoldProduct
+from main.models import Category, Product, Shop, \
+                        Storage, ProductOnStorage, SoldProduct
 
 
 class UserSerializers(serializers.ModelSerializer):

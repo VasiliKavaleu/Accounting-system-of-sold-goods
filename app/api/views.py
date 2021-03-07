@@ -1,19 +1,21 @@
-from rest_framework import generics, authentication, permissions, viewsets, mixins, status
+from rest_framework import generics, authentication, \
+                            permissions, viewsets, status
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
 from rest_framework.views import APIView
 from rest_framework.generics import get_object_or_404
 
-from .serializers import UserSerializers, AuthTokenSerializer, CategorySerializer, ProductSerializer, \
-                        StorageSerializer, ShopSerializer, ProductOnStorageSerializer, SoldProductSerializer
+from .serializers import UserSerializers, AuthTokenSerializer, \
+                        CategorySerializer, ProductSerializer, \
+                        StorageSerializer, ShopSerializer, \
+                        ProductOnStorageSerializer, SoldProductSerializer
 
 import sys
 
 sys.path.append('..')
-from main.models import Category, Product, Storage, Shop, ProductOnStorage, SoldProduct
+from main.models import Category, Product, Storage, \
+                        Shop, ProductOnStorage, SoldProduct
 
 
 class CreateUserView(generics.CreateAPIView):
@@ -42,7 +44,8 @@ class StorageViewSet(viewsets.ModelViewSet):
     """Manage storages"""
     serializer_class = StorageSerializer
     queryset = Storage.objects.all()
-    authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
+    authentication_classes = [authentication.BasicAuthentication,
+                              authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
 
@@ -50,7 +53,8 @@ class CategoryViewSet(viewsets.ModelViewSet):
     """Manage categories"""
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
-    authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
+    authentication_classes = [authentication.BasicAuthentication,
+                              authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
 
@@ -58,13 +62,15 @@ class ShopViewSet(viewsets.ModelViewSet):
     """Manage shops"""
     serializer_class = ShopSerializer
     queryset = Shop.objects.all()
-    authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
+    authentication_classes = [authentication.BasicAuthentication,
+                              authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
 
 class ProductListCreateAPIView(APIView):
     """Manage products"""
-    authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
+    authentication_classes = [authentication.BasicAuthentication,
+                              authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
@@ -77,7 +83,8 @@ class ProductListCreateAPIView(APIView):
         product_name = request.data.get("name")
         try:
             category = Category.objects.get(id=category_id)
-            new_product = Product.objects.create(name=product_name, category=category)
+            new_product = Product.objects.create(name=product_name,
+                                                 category=category)
             serializer = ProductSerializer(new_product)
             return Response(serializer.data, status=201)
         except:
@@ -86,7 +93,8 @@ class ProductListCreateAPIView(APIView):
 
 class ProductDetailAPIView(APIView):
     """Manage products (retrieve, update and delete)"""
-    authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
+    authentication_classes = [authentication.BasicAuthentication,
+                              authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self, pk):
@@ -115,7 +123,8 @@ class ProductDetailAPIView(APIView):
 
 class ProductAvailableListCreate(APIView):
     """List and added Product ratio by storage and shop"""
-    authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
+    authentication_classes = [authentication.BasicAuthentication,
+                              authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
@@ -147,7 +156,8 @@ class ProductAvailableListCreate(APIView):
 
 class ProductAvailableDetail(APIView):
     """Shows Product (availability) ratio with storage/shop and delete"""
-    authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
+    authentication_classes = [authentication.BasicAuthentication,
+                              authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self, pk):
@@ -165,8 +175,11 @@ class ProductAvailableDetail(APIView):
 
 
 class ProductSale(APIView):
-    """Added product to list of sold items and remove storage from list of available storages"""
-    authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
+    """Added product to list of sold
+    items and remove storage from
+    list of available storages"""
+    authentication_classes = [authentication.BasicAuthentication,
+                              authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
@@ -180,20 +193,24 @@ class ProductSale(APIView):
             product_id = data.get('product')['id']
             shop_id = data.get('shop')['id']
             storage_id = data.get('storage')['id']
-        except (ValueError, KeyError, TypeError) as e:
+        except (ValueError, KeyError, TypeError):
             return Response(status=400)
         else:
             product = get_object_or_404(Product, pk=product_id)
             shop_obj = get_object_or_404(Shop, pk=shop_id)
             storage_obj = get_object_or_404(Storage, pk=storage_id)
 
-            product_on_storage = get_object_or_404(ProductOnStorage, product__id=product_id)
+            product_on_storage = get_object_or_404(ProductOnStorage,
+                                                   product__id=product_id)
 
             if product_on_storage.storage.filter(id=storage_id):
                 product_on_storage.storage.remove(storage_obj)
-                sold_product = SoldProduct.objects.create(product=product, shop=shop_obj, storage=storage_obj)
+                sold_product = SoldProduct.objects.create(product=product,
+                                                          shop=shop_obj,
+                                                          storage=storage_obj)
                 serializer = SoldProductSerializer(sold_product)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                return Response(serializer.data,
+                                status=status.HTTP_201_CREATED)
             else:
                 return Response(status=400)
 
@@ -201,27 +218,32 @@ class ProductSale(APIView):
 class SoldProductsByCategoryID(generics.ListAPIView):
     """Get sold products be category id"""
     serializer_class = SoldProductSerializer
-    authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
+    authentication_classes = [authentication.BasicAuthentication,
+                              authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return SoldProduct.objects.filter(product__category=self.request.data.get('id'))
+        return SoldProduct.objects.filter(
+            product__category=self.request.data.get('id'))
 
 
 class SoldProductsByStorageID(generics.ListAPIView):
     """Get sold products be storage id"""
     serializer_class = SoldProductSerializer
-    authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
+    authentication_classes = [authentication.BasicAuthentication,
+                              authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return SoldProduct.objects.filter(storage__id=self.request.data.get('id'))
+        return SoldProduct.objects.filter(
+            storage__id=self.request.data.get('id'))
 
 
 class SoldProductsShopID(generics.ListAPIView):
     """Get sold products be shop id"""
     serializer_class = SoldProductSerializer
-    authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
+    authentication_classes = [authentication.BasicAuthentication,
+                              authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -231,8 +253,10 @@ class SoldProductsShopID(generics.ListAPIView):
 class SoldProductsProductID(generics.ListAPIView):
     """Get sold products be product id"""
     serializer_class = SoldProductSerializer
-    authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
+    authentication_classes = [authentication.BasicAuthentication,
+                              authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return SoldProduct.objects.filter(product__id=self.request.data.get('id'))
+        return SoldProduct.objects.filter(
+            product__id=self.request.data.get('id'))

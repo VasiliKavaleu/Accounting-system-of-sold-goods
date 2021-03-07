@@ -10,7 +10,7 @@ def register(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            new_user = form.save()
+            form.save()
             login_user = authenticate(request,
                                       email=request.POST['email'],
                                       password=request.POST['password1']
@@ -34,7 +34,8 @@ def login_user(request):
             login(request, user)
             return redirect('main:main_page')
         else:
-            messages.info(request, 'Нет такого пользователя! Проверьте введенные данные.')
+            messages.info(request, 'Нет такого пользователя! '
+                                   'Проверьте введенные данные.')
             return redirect('user:login_user')
     else:
         return render(request, 'login_user.html', {'form': form})

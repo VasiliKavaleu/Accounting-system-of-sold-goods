@@ -26,6 +26,3 @@ def get_latest_news():
     news_set1 = get_info_from_source(news_feed.entries[:2])
     news_set2 = get_info_from_source(news_feed.entries[3:5])
     return news_set1, news_set2
-
-
-

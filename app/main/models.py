@@ -3,7 +3,8 @@ from django.db import models
 
 class Category(models.Model):
     objects = None
-    name = models.CharField('Название категории', max_length=200, db_index=True, unique=True)
+    name = models.CharField('Название категории', max_length=200,
+                            db_index=True, unique=True)
 
     class Meta:
         ordering = ('name',)
@@ -57,10 +58,11 @@ class ProductOnStorage(models.Model):
                                 verbose_name='Товар',
                                 related_name='products',
                                 on_delete=models.CASCADE)
-    storage = models.ManyToManyField(Storage, verbose_name='Склады',  blank=True)
+    storage = models.ManyToManyField(Storage,
+                                     verbose_name='Склады', blank=True)
 
-    shops = models.ManyToManyField(Shop, verbose_name='Магазины', blank=True)
-
+    shops = models.ManyToManyField(Shop,
+                                   verbose_name='Магазины', blank=True)
 
     class Meta:
         verbose_name = 'Наличие товаров'
@@ -72,11 +74,11 @@ class ProductOnStorage(models.Model):
 
 class SoldProduct(models.Model):
     product = models.ForeignKey(Product,
-                                 null=True,
-                                 on_delete=models.SET_NULL)
+                                null=True,
+                                on_delete=models.SET_NULL)
     shop = models.ForeignKey(Shop,
-                                 null=True,
-                                 on_delete=models.SET_NULL)
+                             null=True,
+                             on_delete=models.SET_NULL)
     storage = models.ForeignKey(Storage,
                                 null=True,
                                 on_delete=models.SET_NULL)
