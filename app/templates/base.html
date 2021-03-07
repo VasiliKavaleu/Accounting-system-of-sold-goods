@@ -32,6 +32,7 @@
 		<link rel="stylesheet" href="{% static 'css/style.css' %}">
 		<link rel="stylesheet" href="{% static 'css/skins/all.css' %}">
 		<link rel="stylesheet" href="{% static 'css/demo.css' %}">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	</head>
 
 	<body class="skin-orange">
@@ -235,6 +236,36 @@
 			</div>
 		</footer>
 		<!-- End Footer -->
+
+		{% block script %}
+		{% endblock %}
+		<script>
+			function ajaxPaginator() {
+					$(document).on("click", 'a.page-link', function(e) {
+						e.preventDefault()
+						let page_url = $(this).attr('href')
+						$.ajax({
+							url: page_url,
+							type: 'GET',
+							dataType: 'html',
+							success: (data) => {
+								 var data = $.parseHTML(data);
+								$('#content').empty()
+								$('#content').append( $(data).find('#content') )
+							}
+						})
+					})
+			}
+
+			$(document).ready(function(){
+				ajaxPaginator()
+			});
+
+			$(document).ajaxStop(function(){
+				ajaxPaginator()
+			})
+
+		</script>
 
 		<!-- JS -->
 		<script src="{% static 'js/jquery.js' %}"></script>
