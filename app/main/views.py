@@ -52,3 +52,6 @@ def product_list_by_shop(request, id):
     products = ProductOnStorage.objects.filter(shops__id=id)
     shop = get_object_or_404(Shop, id=id)
     return render(request, 'products_of_shop.html', {'products_of_shop': products, 'shop': shop})
+
+def get_about_page(request):
+    return render(request, 'about.html')

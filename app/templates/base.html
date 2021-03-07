@@ -14,7 +14,8 @@
 		<meta property="og:type" content="article" />
 		<meta property="og:url" content="http://github.com/nauvalazhar/Magz" />
 		<meta property="og:image" content="https://raw.githubusercontent.com/nauvalazhar/Magz/master/images/preview.png" />
-		<title>Magz &mdash; Responsive HTML5 &amp; CSS3 Magazine Template</title>
+		<link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}"/>
+		<title>{% block title %}{% endblock %}</title>
 		<!-- Bootstrap -->
 		<link rel="stylesheet" href="{% static 'scripts/bootstrap/bootstrap.min.css' %}">
 		<!-- IonIcons -->
@@ -40,21 +41,14 @@
 					<div class="row">
 						<div class="col-md-3 col-sm-12">
 							<div class="brand">
-								<a href="index.html">
+								<a href="">
 									<img src="{% static 'images/logo.png' %}" alt="Magz Logo">
 								</a>
 							</div>
 						</div>
 						<div class="col-md-6 col-sm-12">
 							<form class="search" autocomplete="off">
-								<div class="form-group">
-									<div class="input-group">
-										<input type="text" name="q" class="form-control" placeholder="Введите для поиска...">
-										<div class="input-group-btn">
-											<button class="btn btn-primary"><i class="ion-search"></i></button>
-										</div>
-									</div>
-								</div>
+
 							</form>
 						</div>
 						<div class="col-md-3 col-sm-12 text-right">
@@ -76,7 +70,7 @@
 				<div class="container">
 					<div class="brand">
 						<a href="#">
-							<img src="images/logo.png" alt="Magz Logo">
+							<img src="{% static 'images/logo.png' %}" alt="Magz Logo">
 						</a>
 					</div>
 					<div class="mobile-toggle">
@@ -101,18 +95,13 @@
 							<li class="dropdown magz-dropdown">
 								<a href="">Товары<i class="ion-ios-arrow-right"></i></a>
 								<ul class="dropdown-menu">
-									<li><a href="{% url 'main:products' %}">В наличии</a></li>
+									<li><a href="{% url 'main:products' %}">Все товары</a></li>
 									<li><a href="{% url 'main:sold_products' %}">Проданные</a></li>
 								</ul>
 							</li>
-							<li><a href="#">О нас </a></li>
-
-							<li><a href="{% url 'main:main_page' %}">Контакты</a></li>
+							<li><a href="{% url 'main:about' %}">О нас </a></li>
 							<li class="dropdown magz-dropdown"><a href="#">Настройки <i class="ion-ios-arrow-right"></i></a>
 								<ul class="dropdown-menu">
-									<li><a href="#"><i class="icon ion-person"></i> Аккаунт</a></li>
-									<li><a href="#"><i class="icon ion-settings"></i> Мои проекты</a></li>
-									<li class="divider"></li>
 									<li><a href="{% url 'user:logout_user' %}"><i class="icon ion-log-out"></i> Выйти</a></li>
 								</ul>
 							</li>
@@ -140,7 +129,7 @@
 								<p class="brand-description">
 									Accounting system of sold goods
 								</p>
-								<a href="page.html" class="btn btn-magz white">About us <i class="ion-ios-arrow-thin-right"></i></a>
+								<a href="{% url 'main:about' %}" class="btn btn-magz white">About us <i class="ion-ios-arrow-thin-right"></i></a>
 							</div>
 						</div>
 					</div>
@@ -149,11 +138,11 @@
 							<h1 class="block-title">Popular Tags <div class="right"></div></h1>
 							<div class="block-body">
 								<ul class="tags">
-									<li><a href="#">Main</a></li>
-									<li><a href="#">Shops</a></li>
-									<li><a href="#">Storages</a></li>
-									<li><a href="#">Sold product</a></li>
-									<li><a href="#">Available products</a></li>
+									<li><a href="{% url 'main:main_page' %}">Main</a></li>
+									<li><a href="{% url 'main:shops' %}">Shops</a></li>
+									<li><a href="{% url 'main:storages' %}">Storages</a></li>
+									<li><a href="{% url 'main:sold_products' %}">Sold product</a></li>
+									<li><a href="{% url 'main:products' %}">All products</a></li>
 								</ul>
 							</div>
 						</div>

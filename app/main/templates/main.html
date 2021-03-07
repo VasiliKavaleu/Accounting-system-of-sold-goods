@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}Главная{% endblock %}
+
 {% block content %}
 
 		<section class="home">
@@ -12,35 +14,11 @@
 								<article class="featured">
 									<div class="overlay"></div>
 									<figure>
-										<img src="{% static 'images/news/or0.jpg' %}" alt="Sample Article">
+										<img src="{% static 'images/com.png' %}" alt="Sample Article">
 									</figure>
 									<div class="details">
-										<div class="category"><a href="category.html">Магазины</a></div>
-										<h1><a href="single.html">Система учета проданных товаров</a></h1>
-									</div>
-								</article>
-							</div>
-							<div class="item">
-								<article class="featured">
-									<div class="overlay"></div>
-									<figure>
-										<img src="{% static 'images/news/cit2.jpg' %}" alt="Sample Article">
-									</figure>
-									<div class="details">
-										<div class="category"><a href="category.html">Магазины</a></div>
-										<h1><a href="single.html">Система учета проданных товаров</a></h1>
-									</div>
-								</article>
-							</div>
-							<div class="item">
-								<article class="featured">
-									<div class="overlay"></div>
-									<figure>
-										<img src="{% static 'images/news/city3.jpeg' %}" alt="Sample Article">
-									</figure>
-									<div class="details">
-										<div class="category"><a href="category.html">Магазины</a></div>
-										<h1><a href="single.html">Система учета проданных товаров</a></h1>
+										<div class="category"><a href="{% url 'main:shops' %}">Магазины</a></div>
+										<h1><a href="">Система учета проданных товаров</a></h1>
 									</div>
 								</article>
 							</div>
@@ -59,7 +37,7 @@
                                         <article class="article col-md-12">
                                             <div class="inner">
                                                 <figure>
-                                                    <a href="single.html">
+                                                    <a href="">
                                                         <img src="{{ item_news.image_link }}" alt="Sample Article">
                                                     </a>
                                                 </figure>
@@ -67,7 +45,7 @@
                                                     <div class="detail">
                                                         <div class="category"><a href="{{ item_news.tag_link }}">{{ item_news.tag_name }}</a></div>
                                                     </div>
-                                                    <h2><a href="single.html">{{ item_news.title }}</a></h2>
+                                                    <h2><a href="">{{ item_news.title }}</a></h2>
                                                     <footer>
                                                         <a class="btn btn-primary more" href="{{ item_news.source_link }}">
                                                             <div>TUT.by</div>
@@ -89,7 +67,7 @@
                                         <article class="article col-md-12">
                                             <div class="inner">
                                                 <figure>
-                                                    <a href="single.html">
+                                                    <a href="">
                                                         <img src="{{ item_news.image_link }}" alt="Sample Article">
                                                     </a>
                                                 </figure>
@@ -97,7 +75,7 @@
                                                     <div class="detail">
                                                         <div class="category"><a href="{{ item_news.tag_link }}">{{ item_news.tag_name }}</a></div>
                                                     </div>
-                                                    <h2><a href="single.html">{{ item_news.title }}</a></h2>
+                                                    <h2><a href="">{{ item_news.title }}</a></h2>
                                                     <footer>
                                                         <a class="btn btn-primary more" href="{{ item_news.source_link }}">
                                                             <div>TUT.by</div>
@@ -111,37 +89,6 @@
 								</div>
 							</div>
 						</div>
-
-<!--						<div class="line top">-->
-<!--							<div>Интернет и связь</div>-->
-<!--						</div>-->
-<!--						<div class="row">-->
-<!--							{% for item_news in data_set3 %}-->
-<!--							<article class="col-md-12 article-list">-->
-<!--								<div class="inner">-->
-<!--									<figure>-->
-<!--										<a href="single.html">-->
-<!--											<img src="{{ item_news.image_link }}" alt="Sample Article">-->
-<!--										</a>-->
-<!--									</figure>-->
-<!--									<div class="details">-->
-<!--										<div class="detail">-->
-<!--											<div class="category">-->
-<!--												<a href="{{ item_news.tag_link }}">{{ item_news.tag_name }}</a>-->
-<!--											</div>-->
-<!--										</div>-->
-<!--										<h1><a href="single.html">{{ item_news.title }}</a></h1>-->
-<!--										<footer>-->
-<!--											<a class="btn btn-primary more" href="{{ item_news.source_link }}">-->
-<!--												<div>TUT.by</div>-->
-<!--												<div><i class="ion-ios-arrow-thin-right"></i></div>-->
-<!--											</a>-->
-<!--										</footer>-->
-<!--									</div>-->
-<!--								</div>-->
-<!--							</article>-->
-<!--							{% endfor %}-->
-<!--						</div>-->
 					</div>
 
 					<div class="col-xs-6 col-md-4 sidebar" id="sidebar">
@@ -152,7 +99,7 @@
 									<div class="featured-author-inner">
 										<div class="featured-author-cover" style="background-image: url({% static 'images/news/city5.jpg' %});">
 											<div class="badges">
-												<div class="badge-item"><i class="ion-star"></i> <a href="" style="color: #f5f5f5;">О нас</a></div>
+												<div class="badge-item"><i class="ion-star"></i> <a href="{% url 'main:about' %}" style="color: #f5f5f5;">О нас</a></div>
 											</div>
 										</div>
 										<div class="featured-author-body">
@@ -163,94 +110,13 @@
 												порчи или кражи. Для оценки прибыльности нужны отчеты, которые строятся
 												на основе товароучета и данных с кассы.
 											</div>
-											<div class="featured-author-footer">
-												<a href="#">See All Authors</a>
-											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-						</aside>
-						<aside>
-							<h1 class="aside-title">Popular <a href="#" class="all">See All <i class="ion-ios-arrow-right"></i></a></h1>
-							<div class="aside-body">
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="images/news/img07.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Fusce ullamcorper elit at felis cursus suscipit</a></h1>
-										</div>
-									</div>
-								</article>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="images/news/img14.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate velit</a></h1>
-										</div>
-									</div>
-								</article>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="images/news/img09.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Aliquam et metus convallis tincidunt velit ut rhoncus dolor</a></h1>
-										</div>
-									</div>
-								</article>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="images/news/img11.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">dui augue facilisis lacus fringilla pulvinar massa felis quis velit</a></h1>
-										</div>
-									</div>
-								</article>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="images/news/img06.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">neque est semper nulla, ac elementum risus quam a enim</a></h1>
-										</div>
-									</div>
-								</article>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="images/news/img03.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Morbi vitae nisl ac mi luctus aliquet a vitae libero</a></h1>
-										</div>
-									</div>
-								</article>
 							</div>
 						</aside>
 					</div>
 				</div>
 			</div>
 		</section>
-
 {% endblock %}
