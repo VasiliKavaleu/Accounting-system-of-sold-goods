@@ -32,9 +32,9 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-venv/
+../venv/
 env/
-build/
+venv/lib/python3.8/site-packages/pip/_internal/operations/build/
 develop-eggs/
 dist/
 downloads/
@@ -83,6 +83,7 @@ target/
 *.pyc
 __pycache__/
 local_settings.py
+secret.py
 
 db.sqlite3
 

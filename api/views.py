@@ -13,7 +13,7 @@ from .serializers import UserSerializers, AuthTokenSerializer, \
 
 import sys
 
-sys.path.append('..')
+sys.path.append('../app')
 from main.models import Category, Product, Storage, \
                         Shop, ProductOnStorage, SoldProduct
 

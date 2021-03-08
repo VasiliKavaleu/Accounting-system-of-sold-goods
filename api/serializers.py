@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
 
 import sys
-sys.path.append('..')
+sys.path.append('../app')
 
 from main.models import Category, Product, Shop, \
                         Storage, ProductOnStorage, SoldProduct
